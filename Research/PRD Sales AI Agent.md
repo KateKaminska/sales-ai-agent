@@ -62,8 +62,8 @@ The MVP delivers a reactive website chatbot (Botpress) that:
 **US-3** — As a visitor, I want to get answers to common questions so I don't have to wait for a sales call.
 > **Acceptance:** Agent answers FAQ (pricing frameworks, process, timelines) from KB. Admits when it doesn't know.
 
-**US-4** — As a visitor, I want to fill in a contact form so the sales team can reach me.
-> **Acceptance:** Contact form is presented when there is a knowledge gap or user rejects booking. Form captures name, email, company, message.
+**US-4** — As a visitor, I want to fill in a contact form with my questions so the sales team can reach me.
+> **Acceptance:** Contact form is presented in chat when there is a knowledge gap or user rejects booking. Form captures name, email, company, message.
 
 **US-5** — As a qualified visitor, I want to book a meeting with a sales manager directly.
 > **Acceptance:** Calendly link/embed is presented after qualification. Visitor can book without leaving the chat flow.
@@ -73,8 +73,8 @@ The MVP delivers a reactive website chatbot (Botpress) that:
 
 ### 2.2 Secondary Persona: Sales Team Member
 
-**US-8** — As a sales manager, I want qualified leads delivered to HubSpot/Calendly so I can follow up.
-> **Acceptance:** Leads appear in HubSpot/Calendly with qualification data, contact info, and conversation context.
+**US-8** — As a sales manager, I want qualified leads delivered to HubSpot/Calendly so I can follow up quickly.
+> **Acceptance:** Leads from agent conversations appear in HubSpot/Calendly with qualification data, contact info, and conversation context.
 
 **US-9** — As a sales manager, I want to see what the prospect discussed with the agent before my call.
 > **Acceptance:** Conversation summary or link to full log is accessible from the lead record.
@@ -203,7 +203,7 @@ These variables are collected and stored during each conversation session in Bot
 
 | Variable                 | Type    | Required |
 | :----------------------- | :------ | :------- |
-| `visitor_id`             | String  | Auto     |
+| `visitor_id`             | String  | Yes, Auto |
 | `visitor_name`           | String  | No       |
 | `visitor_email`          | String  | No       |
 | `visitor_company`        | String  | No       |

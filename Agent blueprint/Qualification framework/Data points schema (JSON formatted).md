@@ -629,15 +629,44 @@ This is the persistent table where lead data is stored across sessions. Same str
 
 ## Differences Summary
 
-| Variable / Feature | Option A | Option B |
-|---|---|---|
-| `lead_score` default | `"unscored"` | `"Nurture"` |
-| `lead_score` set by | Sales team (manual) | Agent (automatic) |
-| `champ_signals` object | Not present | Required (4 signals) |
-| `champ_positive_count` | Not present | Required (0-4) |
-| `lead_score_reason` | Not present | Required |
-| `nurture_stage` | Not present | Present (N1-N5 tracking) |
-| `nurture_upgraded_to` | Not present | Present (Warm/Hot upgrade) |
-| `conversation_stage` enum | 15 values | 17 values (adds `champ_evaluation`, `handoff_hot`, `handoff_warm`) |
-| `icp_exclusion_flag` | Flags for human review | Triggers AUTO DQ |
-| Botpress Table CHAMP columns | Null | Populated |
+### Scoring behaviour
+
+**`lead_score` default**
+- Option A: `"unscored"`
+- Option B: `"Nurture"`
+
+**`lead_score` set by**
+- Option A: Sales team (manual)
+- Option B: Agent (automatic)
+
+### Option B-only variables
+
+These variables exist only in Option B. Option A does not use them.
+
+**`champ_signals`** — object with 4 required signals (`ch_challenges`, `a_authority`, `m_money`, `p_prioritization`). Each signal is `"positive"`, `"negative"`, or `"unclear"`.
+
+**`champ_positive_count`** — integer (0–4). Count of CHAMP signals evaluated as positive. Drives the scoring logic.
+
+**`lead_score_reason`** — free-text explanation of why the agent scored the lead this way. Helps sales team understand the agent's reasoning.
+
+**`nurture_stage`** — tracks progress through the Nurture flow: `N1_resources_shared` → `N2_checked_in` → `N3_requalified` → `N4_upgraded` / `N4_nudged` → `N5_warm_closed`.
+
+**`nurture_upgraded_to`** — `"Warm"` or `"Hot"` if the lead was upgraded after re-qualification (N4 upgrade path). Null if no upgrade occurred.
+
+### Conversation stage differences
+
+**Option A** — 15 stages. Uses a single `handoff` stage for all qualified leads.
+
+**Option B** — 17 stages. Adds `champ_evaluation`, `handoff_hot`, and `handoff_warm` to differentiate routing after scoring.
+
+### ICP exclusion handling
+
+**`icp_exclusion_flag`**
+- Option A: Flags the lead for human review — agent still offers Calendly.
+- Option B: Triggers AUTO DQ — immediate polite close, no Calendly, no form.
+
+### Botpress Table CHAMP columns
+
+**`ch_challenges`, `a_authority`, `m_money`, `p_prioritization`**
+- Option A: Null (not populated by agent)
+- Option B: Populated with `"positive"`, `"negative"`, or `"unclear"` after CHAMP evaluation

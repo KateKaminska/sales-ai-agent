@@ -1,0 +1,319 @@
+{
+  "meta": {
+    "title": "Sales AI Agent Decision Tree — Option A",
+    "methodology": "CHAMP · Soft Flow",
+    "description": "No automatic scoring. All leads routed to Calendly. Sales team decides fit. Contact form used for knowledge gap escalation only.",
+    "starting_price": "€5,000",
+    "starting_price_note": "subject to change"
+  },
+  "steps": {
+    "step_1_greeting": {
+      "id": "step_1",
+      "name": "GREETING",
+      "prompt": "Hi — I'm here to help you figure out if an inbound Sales AI Agent could work for your business. Mind if I ask a few questions?",
+      "context": "No broad Halo Lab pitch. Visitor already chose this page.",
+      "next": "step_2"
+    },
+    "step_2_introduction": {
+      "id": "step_2",
+      "name": "INTRODUCTION",
+      "topics": [
+        "What an inbound Sales AI Agent is",
+        "What it does: qualify leads, book meetings, handle FAQs",
+        "Typical outcomes",
+        "Starting price: €5,000 (subject to change)"
+      ],
+      "purpose": "Set expectations",
+      "next": "step_3"
+    },
+    "step_3_discovery_company": {
+      "id": "step_3",
+      "name": "DISCOVERY_COMPANY",
+      "prompts": [
+        "Tell me about your company — what do you do?",
+        "What's your role there?"
+      ],
+      "collects": {
+        "company_name": { "type": "string", "required": true },
+        "visitor_role": { "type": "string", "required": true },
+        "industry": { "type": "string", "required": true },
+        "team_size": { "type": "string", "required": false }
+      },
+      "storage": "Single string in discovery_company variable",
+      "inferred_fields": ["industry", "location"],
+      "next": "icp_exclusion_check"
+    },
+    "icp_exclusion_check": {
+      "id": "icp_exclusion_check",
+      "name": "ICP EXCLUSION CHECK",
+      "visibility": "silent — no announcement to visitor",
+      "exclusion_criteria": [
+        "Adult/18+ content industry",
+        "Russia-based company"
+      ],
+      "outcomes": {
+        "passes": {
+          "condition": "No exclusions detected",
+          "next": "step_4"
+        },
+        "fails": {
+          "condition": "Matches exclusion criteria",
+          "action": "polite_close",
+          "message": "Thanks for reaching out — this isn't something we're able to help with.",
+          "next": null
+        }
+      }
+    },
+    "step_4_discovery_use_case": {
+      "id": "step_4",
+      "name": "DISCOVERY_USE_CASE",
+      "champ_signal": "Challenges",
+      "prompt": "What are you looking for in a Sales AI Agent?",
+      "exploration_areas": [
+        "Qualify leads",
+        "Book meetings automatically",
+        "Answer FAQs 24/7",
+        "Handle sales objections",
+        "What problem is driving this need"
+      ],
+      "next": "step_5"
+    },
+    "step_5_discovery_pain_points": {
+      "id": "step_5",
+      "name": "DISCOVERY_PAIN_POINTS",
+      "champ_signal": "Challenges — depth",
+      "prompt": "What's the biggest pain in your current sales process?",
+      "exploration_areas": [
+        "Too slow to respond to leads",
+        "Sales team overwhelmed",
+        "Low website conversion",
+        "No 24/7 coverage",
+        "Lost deals to faster competitors"
+      ],
+      "next": "step_6"
+    },
+    "step_6_discovery_volume": {
+      "id": "step_6",
+      "name": "DISCOVERY_VOLUME",
+      "prompts": [
+        "How many leads per month does your website currently get?",
+        "What kind of conversation volume do you expect after launch?"
+      ],
+      "purpose": "Critical for Botpress plan scoping and pricing",
+      "next": "step_7"
+    },
+    "step_7_discovery_current_stack": {
+      "id": "step_7",
+      "name": "DISCOVERY_CURRENT_STACK",
+      "prompt": "What sales tools do you use today?",
+      "exploration_areas": {
+        "crm": ["HubSpot", "Salesforce", "Pipedrive", "none"],
+        "website_platform": "open-ended",
+        "current_chat_tools": "open-ended",
+        "integrations_needed": ["Calendly", "Slack", "email"]
+      },
+      "next": "step_8"
+    },
+    "step_8_discovery_timeline": {
+      "id": "step_8",
+      "name": "DISCOVERY_TIMELINE",
+      "champ_signal": "Prioritization",
+      "prompts": [
+        "When are you hoping to have this live?",
+        "Is there a trigger event — product launch, funding round?"
+      ],
+      "outcomes": {
+        "urgent": {
+          "label": "URGENT",
+          "description": "Less than a few weeks",
+          "response": "Timelines under a few weeks are tight — we can discuss phased approach on a call."
+        },
+        "realistic": {
+          "label": "REALISTIC",
+          "description": "Several weeks or more",
+          "response": "That works well with our typical build timelines."
+        },
+        "flexible": {
+          "label": "FLEXIBLE",
+          "description": "Someday / exploring",
+          "response": "Note as early-stage. Continue."
+        }
+      },
+      "next": "step_9"
+    },
+    "step_9_discovery_budget": {
+      "id": "step_9",
+      "name": "DISCOVERY_BUDGET",
+      "champ_signal": "Money + Authority",
+      "prompts": [
+        "What budget range are you working with for this project?",
+        "Who else is involved in the decision?"
+      ],
+      "reference_floor": "€5,000",
+      "outcomes": {
+        "states_specific_amount": {
+          "action": "Check if ≥ €5,000"
+        },
+        "gives_range": {
+          "action": "Note the range"
+        },
+        "not_sure_or_wont_say": {
+          "response": "No problem — our projects typically start at €5,000. Let's discuss what's possible on a call."
+        }
+      },
+      "next": "step_10"
+    },
+    "step_10_qualification_summary": {
+      "id": "step_10",
+      "name": "QUALIFICATION_SUMMARY",
+      "description": "Agent recaps collected information conversationally. NO score announced. CHAMP signals shape the language.",
+      "prompt_template": "Based on what you've shared, it sounds like you're looking to build an inbound lead qualification agent integrated with [CRM], targeting a go-live in about [timeline]. Let me connect you with our team to walk through the approach.",
+      "outcomes": {
+        "correct": {
+          "next": "step_11"
+        },
+        "correction_needed": {
+          "action": "Update info. Re-summarize.",
+          "next": "step_11"
+        }
+      }
+    },
+    "step_11_handoff": {
+      "id": "step_11",
+      "name": "HANDOFF DECISION",
+      "required_data": [
+        "company + role",
+        "use case",
+        "current stack",
+        "timeline indication",
+        "budget range (even approximate)"
+      ],
+      "outcomes": {
+        "sufficient_data": {
+          "condition": "All required data collected",
+          "action": "Present Calendly link. Recap key points.",
+          "conversion": "Calendly link"
+        },
+        "weak_signals": {
+          "condition": "Budget or timeline signals are weak",
+          "action": "Flag softly. Still offer Calendly + phased approach.",
+          "note": "Sales team assesses fit on call",
+          "conversion": "Calendly link"
+        },
+        "nurture_situation": {
+          "condition": "Early-stage / not ready to commit",
+          "action": "Route to nurture flow",
+          "next": "nurture_flow"
+        },
+        "knowledge_gap": {
+          "condition": "Knowledge gap detected at any point",
+          "action": "Offer contact form. Agent continues qualifying after submit.",
+          "conversion": "Contact form → Botpress Table",
+          "note": "Calendly still offered at end"
+        },
+        "visitor_declines_calendly": {
+          "condition": "Visitor declines Calendly",
+          "action": "Acknowledge. Offer contact form as fallback. Close warmly.",
+          "conversion": "Contact form → Botpress Table"
+        }
+      }
+    }
+  },
+  "nurture_flow": {
+    "trigger": "Visitor is early-stage, not ready to commit",
+    "steps": {
+      "n1_share_resources": {
+        "id": "n1",
+        "name": "SHARE RESOURCES",
+        "prompt": "Let me share a couple of examples of inbound Sales AI Agents we've built — these might give you a better feel for what's possible.",
+        "action": "Share case studies",
+        "next": "n2"
+      },
+      "n2_check_in": {
+        "id": "n2",
+        "name": "CHECK IN",
+        "prompt": "Did any of those feel relevant to what you're working on?",
+        "next": "n3"
+      },
+      "n3_re_qualification": {
+        "id": "n3",
+        "name": "RE-QUALIFICATION",
+        "champ_signal": "Challenges revisit",
+        "prompt": "What would need to change on your side for this to become something you'd want to explore more concretely?",
+        "next": "n4"
+      },
+      "n4_soft_calendly_nudge": {
+        "id": "n4",
+        "name": "SOFT CALENDLY NUDGE",
+        "prompt": "Even if it's just exploratory, a 20-minute call with our team might help clarify things — no commitment needed. Want me to share the link?",
+        "outcomes": {
+          "accepted": {
+            "conversion": "Calendly link"
+          },
+          "declined": {
+            "next": "n5"
+          }
+        }
+      },
+      "n5_warm_close": {
+        "id": "n5",
+        "name": "WARM CLOSE",
+        "prompt": "Totally understood — feel free to come back when the timing is better. I'll make a note of your situation so our team has context if you reach out.",
+        "next": null
+      }
+    }
+  },
+  "knowledge_gap_escalation": {
+    "trigger": "Visitor asks a question at any point in the flow",
+    "outcomes": {
+      "can_answer": {
+        "topics": ["Services", "Process", "Use cases", "Case studies"],
+        "action": "Answer from knowledge base",
+        "next": "return_to_discovery_flow"
+      },
+      "can_answer_partially": {
+        "topics": ["Pricing (frameworks)", "General timelines"],
+        "action": "Answer what you can",
+        "follow_up": "Our team can give more detail on a call.",
+        "next": "return_to_discovery_flow"
+      },
+      "cannot_answer": {
+        "topics": ["Exact prices", "Custom integrations", "Contract terms", "Tech edge cases"],
+        "response": "That's a great question — I don't have enough detail. Let me capture your question so our team gets back to you.",
+        "action": "Present contact form",
+        "contact_form_fields": {
+          "name": { "type": "string", "required": true },
+          "email": { "type": "string", "required": true },
+          "company": { "type": "string", "required": true },
+          "question": { "type": "string", "required": true, "pre_filled": true }
+        },
+        "storage": "Botpress Table",
+        "note": "Agent continues the conversation. Qualification does not stop.",
+        "next": "return_to_discovery_flow"
+      }
+    }
+  },
+  "recovery_paths": {
+    "off_topic": {
+      "trigger": "Visitor sends off-topic message",
+      "response": "That's interesting! Coming back to your Sales AI Agent project...",
+      "action": "Return to current discovery step"
+    },
+    "skip_discovery": {
+      "trigger": "Visitor says 'Can I just schedule a call?'",
+      "response": "Absolutely! Just a couple quick questions so our team can prepare the right approach for you.",
+      "action": "Quick discovery (company + use case + timeline) → Calendly"
+    },
+    "unresponsive": {
+      "trigger": "No response for 2+ minutes",
+      "response": "Still there? No rush — let me know when you're ready to continue, or I can have our team reach out.",
+      "action": "Wait for response or offer contact form"
+    },
+    "not_a_good_fit": {
+      "trigger": "Budget too low / timeline impossible / no clear need",
+      "note": "Option A = manual DQ — sales team makes final decision",
+      "response": "Based on what you've shared, let me connect you with our team — they can explore whether there's a way to make this work for your situation.",
+      "action": "Still offer Calendly. Sales team makes final DQ decision."
+    }
+  }
+}

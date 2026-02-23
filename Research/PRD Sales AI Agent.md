@@ -53,22 +53,34 @@ The MVP delivers a reactive website chatbot (Botpress) that:
 
 ### 2.1 Primary Persona: Website Visitor (Prospect)
 
-| ID   | User Story                                                                                        | Acceptance Criteria                                                                                                                                                      |
-| :--- | :------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| US-1 | As a visitor, I want to ask about services so I understand what the company does.                  | Agent explains services using KB content. Responses are accurate and conversational. No hallucinated offerings.                                                           |
-| US-2 | As a visitor, I want to see relevant case studies so I can evaluate if the company is a good fit.  | Agent recommends case studies matching visitor's industry/need from KB. Links or descriptions provided.                                                                   |
-| US-3 | As a visitor, I want to get answers to common questions so I don't have to wait for a sales call.  | Agent answers FAQ (pricing frameworks, process, timelines) from KB. Admits when it doesn't know.                                                                         |
-| US-4 | As a visitor, I want to fill in a contact form so the sales team can reach me.                    | Contact form is presented when there is a knowledge gap or user rejects booking. Form captures name, email, company, message.                                            |
-| US-5 | As a qualified visitor, I want to book a meeting with a sales manager directly.                   | Calendly link/embed is presented after qualification. Visitor can book without leaving the chat flow.                                                                     |
-| US-6 | As a returning visitor, I want the agent to remember our previous conversation.                   | Agent recognizes returning visitors (via email or cookie). Previous qualification status and context are restored.                                                        |
+**US-1** — As a visitor, I want to ask about services so I understand what the company does.
+> **Acceptance:** Agent explains services using KB content. Responses are accurate and conversational. No hallucinated offerings.
+
+**US-2** — As a visitor, I want to see relevant case studies so I can evaluate if the company is a good fit.
+> **Acceptance:** Agent recommends case studies matching visitor's industry/need from KB. Links or descriptions provided.
+
+**US-3** — As a visitor, I want to get answers to common questions so I don't have to wait for a sales call.
+> **Acceptance:** Agent answers FAQ (pricing frameworks, process, timelines) from KB. Admits when it doesn't know.
+
+**US-4** — As a visitor, I want to fill in a contact form so the sales team can reach me.
+> **Acceptance:** Contact form is presented when there is a knowledge gap or user rejects booking. Form captures name, email, company, message.
+
+**US-5** — As a qualified visitor, I want to book a meeting with a sales manager directly.
+> **Acceptance:** Calendly link/embed is presented after qualification. Visitor can book without leaving the chat flow.
+
+**US-6** — As a returning visitor, I want the agent to remember our previous conversation.
+> **Acceptance:** Agent recognizes returning visitors (via email or cookie). Previous qualification status and context are restored.
 
 ### 2.2 Secondary Persona: Sales Team Member
 
-| ID    | User Story                                                                                       | Acceptance Criteria                                                                                                              |
-| :---- | :----------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| US-8  | As a sales manager, I want qualified leads delivered to HubSpot/Calendly so I can follow up.     | Leads appear in HubSpot/Calendly with qualification data, contact info, and conversation context.                                |
-| US-9  | As a sales manager, I want to see what the prospect discussed with the agent before my call.     | Conversation summary or link to full log is accessible from the lead record.                                                     |
-| US-10 | As a sales manager, I want the agent to not make promises I can't keep.                          | Guardrails prevent the agent from guaranteeing timelines, ROI, SLAs, or exact pricing.                                           |
+**US-8** — As a sales manager, I want qualified leads delivered to HubSpot/Calendly so I can follow up.
+> **Acceptance:** Leads appear in HubSpot/Calendly with qualification data, contact info, and conversation context.
+
+**US-9** — As a sales manager, I want to see what the prospect discussed with the agent before my call.
+> **Acceptance:** Conversation summary or link to full log is accessible from the lead record.
+
+**US-10** — As a sales manager, I want the agent to not make promises I can't keep.
+> **Acceptance:** Guardrails prevent the agent from guaranteeing timelines, ROI, SLAs, or exact pricing.
 
 ---
 
@@ -104,12 +116,25 @@ The agent must collect the following data points during conversation. Not all ar
 
 ### 3.3 Lead Scoring & Outcomes
 
-| Category | Criteria                                                                    | Action                   | Conversion Path                                    |
-| :------- | :-------------------------------------------------------------------------- | :----------------------- | :------------------------------------------------- |
-| **Hot**  | Clear need + budget + timeline + authority. Strong fit.                      | Book meeting immediately | Calendly link presented in chat                    |
-| **Warm** | Need identified but missing budget/timeline/authority. Potential fit.        | Book meeting immediately | Calendly link presented in chat                    |
-| **Nurture** | Early-stage interest. No immediate need or budget. Exploring options.    | Provide resources        | Offer to send case studies / subscribe to updates  |
-| **DQ**   | No fit (wrong industry, no budget, outside service scope). Spam.            | Politely disengage       | Thank visitor. No conversion action.               |
+**Hot**
+- **Criteria:** Clear need + budget + timeline + authority. Strong fit.
+- **Action:** Book meeting immediately.
+- **Conversion path:** Calendly link presented in chat.
+
+**Warm**
+- **Criteria:** Need identified but missing budget/timeline/authority. Potential fit.
+- **Action:** Book meeting immediately.
+- **Conversion path:** Calendly link presented in chat.
+
+**Nurture**
+- **Criteria:** Early-stage interest. No immediate need or budget. Exploring options.
+- **Action:** Provide resources.
+- **Conversion path:** Offer to send case studies / subscribe to updates.
+
+**DQ (Disqualified)**
+- **Criteria:** No fit (wrong industry, no budget, outside service scope). Spam.
+- **Action:** Politely disengage.
+- **Conversion path:** Thank visitor. No conversion action.
 
 ### 3.4 Conversion Paths
 
@@ -176,22 +201,39 @@ The agent's knowledge comes exclusively from curated sources loaded into the Bot
 
 These variables are collected and stored during each conversation session in Botpress.
 
-| Variable                 | Type    | Required | Description                                                                                                          |
-| :----------------------- | :------ | :------- | :------------------------------------------------------------------------------------------------------------------- |
-| `visitor_id`             | String  | Auto     | Auto-generated from Botpress built-in userId. Persisted via browser cookie. Used to identify returning visitors.     |
-| `visitor_name`           | String  | No       | Visitor's name (collected via conversation or form)                                                                  |
-| `visitor_email`          | String  | No       | Email address (collected via form or Calendly)                                                                       |
-| `visitor_company`        | String  | No       | Company or organization name                                                                                         |
-| `visitor_phone`          | String  | No       | Phone number (optional on form)                                                                                      |
-| `visitor_industry`       | String  | No       | Industry/vertical (inferred or stated)                                                                               |
-| `business_need`          | String  | No       | Primary challenge or need described by visitor                                                                       |
-| `budget_indication`      | String  | No       | Budget range or "not discussed"                                                                                      |
-| `timeline`               | String  | No       | When they want to start ("ASAP", "Q2", "exploring")                                                                 |
-| `decision_authority`     | String  | No       | Role in decision-making ("decision maker", "researcher")                                                             |
-| `lead_score`             | Enum    | Yes      | Hot / Warm / Nurture / DQ                                                                                            |
-| `conversion_action`      | Enum    | Yes      | form_submitted / meeting_booked / resources_sent / none                                                              |
-| `conversation_summary`   | String  | Auto     | AI-generated summary of the conversation                                                                             |
-| `qualification_complete` | Boolean | Yes      | Whether minimum qualification data was collected                                                                     |
+| Variable                 | Type    | Required |
+| :----------------------- | :------ | :------- |
+| `visitor_id`             | String  | Auto     |
+| `visitor_name`           | String  | No       |
+| `visitor_email`          | String  | No       |
+| `visitor_company`        | String  | No       |
+| `visitor_phone`          | String  | No       |
+| `visitor_industry`       | String  | No       |
+| `business_need`          | String  | No       |
+| `budget_indication`      | String  | No       |
+| `timeline`               | String  | No       |
+| `decision_authority`     | String  | No       |
+| `lead_score`             | Enum    | Yes      |
+| `conversion_action`      | Enum    | Yes      |
+| `conversation_summary`   | String  | Auto     |
+| `qualification_complete` | Boolean | Yes      |
+
+**Variable descriptions:**
+
+- `visitor_id` — Auto-generated from Botpress built-in userId. Persisted via browser cookie. Used to identify returning visitors.
+- `visitor_name` — Visitor's name (collected via conversation or form).
+- `visitor_email` — Email address (collected via form or Calendly).
+- `visitor_company` — Company or organization name.
+- `visitor_phone` — Phone number (optional on form).
+- `visitor_industry` — Industry/vertical (inferred or stated).
+- `business_need` — Primary challenge or need described by visitor.
+- `budget_indication` — Budget range or "not discussed".
+- `timeline` — When they want to start ("ASAP", "Q2", "exploring").
+- `decision_authority` — Role in decision-making ("decision maker", "researcher").
+- `lead_score` — Hot / Warm / Nurture / DQ.
+- `conversion_action` — form_submitted / meeting_booked / resources_sent / none.
+- `conversation_summary` — AI-generated summary of the conversation.
+- `qualification_complete` — Whether minimum qualification data was collected.
 
 ### 5.2 Memory & Returning Visitors
 
@@ -313,16 +355,14 @@ The system must support returning visitor recognition. Stored per visitor (via B
 
 The following items are explicitly excluded from the MVP. They may be considered for v2 based on MVP learnings.
 
-| Feature                                    | Rationale / v2 Notes                                                                                           |
-| :----------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| CRM write operations (Botpress → HubSpot)  | HubSpot sync handled via Calendly + form. Direct write integration in v2.                                      |
-| Follow-up messages (email/chat)            | Requires email integration (SendGrid/MailGun). v2 feature.                                                     |
-| Voice interaction                          | Text chat only for MVP. Voice in v2 if demand validated.                                                       |
-| Proactive chat (auto-trigger)              | MVP is reactive only. Proactive triggers (page time, exit intent) in v2.                                       |
-| Multi-channel (WhatsApp, Messenger)        | Website chat only. Additional channels in v2.                                                                  |
-| A/B testing of conversation flows          | Not natively supported in Botpress. Consider for v2 with Langfuse.                                             |
-| Advanced analytics / custom dashboards     | Botpress built-in analytics for MVP. Custom dashboards in v2.                                                  |
-| CRM data read (enrich conversations)       | Discovery Doc lists as not in MVP scope. v2 feature.                                                           |
+- **CRM write operations (Botpress → HubSpot)** — HubSpot sync handled via Calendly + form. Direct write integration in v2.
+- **Follow-up messages (email/chat)** — Requires email integration (SendGrid/MailGun). v2 feature.
+- **Voice interaction** — Text chat only for MVP. Voice in v2 if demand validated.
+- **Proactive chat (auto-trigger)** — MVP is reactive only. Proactive triggers (page time, exit intent) in v2.
+- **Multi-channel (WhatsApp, Messenger)** — Website chat only. Additional channels in v2.
+- **A/B testing of conversation flows** — Not natively supported in Botpress. Consider for v2 with Langfuse.
+- **Advanced analytics / custom dashboards** — Botpress built-in analytics for MVP. Custom dashboards in v2.
+- **CRM data read (enrich conversations)** — Discovery Doc lists as not in MVP scope. v2 feature.
 
 ---
 
@@ -330,32 +370,50 @@ The following items are explicitly excluded from the MVP. They may be considered
 
 The MVP is ready for production when ALL of the following are verified:
 
-| #  | Criterion                                                                        | Verification                                                                               |
-| :- | :------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
-| 1  | Agent correctly qualifies leads into Hot/Warm/Nurture/DQ categories              | 50+ test conversations pass with correct categorization                                    |
-| 2  | Agent answers service/FAQ questions accurately from KB                           | 10+ FAQ scenarios verified against KB content. No hallucination.                           |
-| 3  | Agent recommends relevant case studies based on visitor profile                  | 5+ industry-matched case study recommendations verified                                    |
-| 4  | Contact form is presented for knowledge gap and rejection to book a meeting      | Form submission tested. Data received correctly.                                           |
-| 5  | Calendly booking link is presented for Hot/Warm leads                            | Booking flow tested end-to-end. Calendar invite confirmed.                                 |
-| 6  | Agent respects all guardrails (no pricing, no guarantees, no confidential info)  | 10+ adversarial test scenarios pass                                                        |
-| 7  | Returning visitors are recognized and context is restored                        | 3+ returning visitor scenarios tested                                                      |
-| 8  | Lead data reaches HubSpot via Calendly sync or form submission                  | 5+ leads verified in HubSpot with correct data                                             |
-| 9  | Widget loads correctly on production website (desktop + mobile)                  | Tested on Chrome, Safari, Firefox. Mobile responsive.                                      |
-| 10 | Response time < 3 seconds under normal load                                     | Measured across 20+ conversations                                                          |
-| 11 | Conversation logs are accessible in Botpress for review                         | Sales team can access and search conversation history                                      |
+1. **Agent correctly qualifies leads into Hot/Warm/Nurture/DQ categories**
+   - Verification: 50+ test conversations pass with correct categorization.
+2. **Agent answers service/FAQ questions accurately from KB**
+   - Verification: 10+ FAQ scenarios verified against KB content. No hallucination.
+3. **Agent recommends relevant case studies based on visitor profile**
+   - Verification: 5+ industry-matched case study recommendations verified.
+4. **Contact form is presented for knowledge gap and rejection to book a meeting**
+   - Verification: Form submission tested. Data received correctly.
+5. **Calendly booking link is presented for Hot/Warm leads**
+   - Verification: Booking flow tested end-to-end. Calendar invite confirmed.
+6. **Agent respects all guardrails (no pricing, no guarantees, no confidential info)**
+   - Verification: 10+ adversarial test scenarios pass.
+7. **Returning visitors are recognized and context is restored**
+   - Verification: 3+ returning visitor scenarios tested.
+8. **Lead data reaches HubSpot via Calendly sync or form submission**
+   - Verification: 5+ leads verified in HubSpot with correct data.
+9. **Widget loads correctly on production website (desktop + mobile)**
+   - Verification: Tested on Chrome, Safari, Firefox. Mobile responsive.
+10. **Response time < 3 seconds under normal load**
+    - Verification: Measured across 20+ conversations.
+11. **Conversation logs are accessible in Botpress for review**
+    - Verification: Sales team can access and search conversation history.
 
 ---
 
 ## 11. Risks & Mitigations
 
-| Risk                                            | Mitigation                                                                                                                    |
-| :---------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| Incorrect answers cost deals                    | KB-only responses. Guardrails enforced. Agent admits when it doesn't know. Regular KB review cycle.                           |
-| Agent hallucination                             | Botpress KB grounding + "limit to KB" setting. Batch testing catches gaps. Langfuse traces for debugging.                     |
-| Poor qualification accuracy                     | Iterative tuning based on sales team feedback. Batch test dataset grows over time. A/B qualification prompts.                 |
-| Low visitor engagement                          | Optimize greeting message. v2: add proactive triggers. Monitor bounce rate in analytics.                                      |
-| Sales team doesn't trust agent output           | Involve sales from day 1. Demo in testing phase. Frame as pilot. Share conversation logs.                                     |
-| Botpress AI Spend exceeds $100/mo cap           | Hybrid models (GPT-4o Mini for FAQ). Monitor in dashboard. Contact Botpress to raise cap if needed.                           |
+**Incorrect answers cost deals**
+> Mitigation: KB-only responses. Guardrails enforced. Agent admits when it doesn't know. Regular KB review cycle.
+
+**Agent hallucination**
+> Mitigation: Botpress KB grounding + "limit to KB" setting. Batch testing catches gaps. Langfuse traces for debugging.
+
+**Poor qualification accuracy**
+> Mitigation: Iterative tuning based on sales team feedback. Batch test dataset grows over time. A/B qualification prompts.
+
+**Low visitor engagement**
+> Mitigation: Optimize greeting message. v2: add proactive triggers. Monitor bounce rate in analytics.
+
+**Sales team doesn't trust agent output**
+> Mitigation: Involve sales from day 1. Demo in testing phase. Frame as pilot. Share conversation logs.
+
+**Botpress AI Spend exceeds $100/mo cap**
+> Mitigation: Hybrid models (GPT-4o Mini for FAQ). Monitor in dashboard. Contact Botpress to raise cap if needed.
 
 ---
 

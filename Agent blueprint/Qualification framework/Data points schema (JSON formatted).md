@@ -221,8 +221,8 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "previous_lead_score": {
       "type": ["string", "null"],
-      "enum": ["Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor).",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ", null],
+      "description": "Lead score from previous conversation (if returning visitor). Includes 'unscored' for Option A leads that were never manually scored.",
       "default": null
     },
 
@@ -437,9 +437,9 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "lead_score": {
       "type": "string",
-      "enum": ["Hot", "Warm", "Nurture", "DQ"],
-      "description": "Option B: set AUTOMATICALLY by agent based on CHAMP evaluation. Hot = all 4 positive. Warm = CH positive + 1-2 of A/M/P positive. Nurture = CH weak/vague. DQ = no need, wrong scope, spam, or ICP exclusion.",
-      "default": "Nurture"
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Option B: set AUTOMATICALLY by agent based on CHAMP evaluation. Starts as 'unscored' until CHAMP evaluation is complete. Hot = all 4 positive. Warm = CH positive + 1-2 of A/M/P positive. Nurture = CH weak/vague. DQ = no need, wrong scope, spam, or ICP exclusion.",
+      "default": "unscored"
     },
 
     "lead_score_reason": {
@@ -527,8 +527,8 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "previous_lead_score": {
       "type": ["string", "null"],
-      "enum": ["Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor).",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ", null],
+      "description": "Lead score from previous conversation (if returning visitor). Includes 'unscored' for Option A leads that were never manually scored.",
       "default": null
     },
 
@@ -572,23 +572,35 @@ This is the persistent table where lead data is stored across sessions. Same str
     "visitor_industry":     { "type": ["string", "null"] },
     "visitor_location":     { "type": ["string", "null"] },
 
+    "visitor_team_size":    { "type": ["string", "null"], "description": "Team/company size. Collected at Step 3." },
+
     "use_case":             { "type": ["string", "null"] },
     "pain_points":          { "type": ["string", "null"] },
     "leads_per_month":      { "type": ["string", "null"] },
+    "expected_volume":      { "type": ["string", "null"], "description": "Expected conversation volume after launch. Step 6." },
     "current_crm":          { "type": ["string", "null"] },
+    "website_platform":     { "type": ["string", "null"], "description": "Website platform: WordPress, Webflow, custom, other. Step 7." },
+    "current_chat_tools":   { "type": ["string", "null"], "description": "Existing chat tools: Intercom, Drift, LiveChat, none, other. Step 7." },
     "integrations_needed":  { "type": ["string", "null"] },
 
     "timeline":             { "type": ["string", "null"] },
+    "trigger_event":        { "type": ["string", "null"], "description": "Trigger event driving urgency: product launch, funding round, seasonal traffic, none. Step 8." },
     "budget_indication":    { "type": ["string", "null"] },
     "decision_authority":   { "type": ["string", "null"] },
+    "other_stakeholders":   { "type": ["string", "null"], "description": "Other decision-makers involved. Step 9." },
 
     "ch_challenges":        { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only. Null for Option A." },
     "a_authority":          { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
     "m_money":              { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
     "p_prioritization":     { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
 
+    "champ_positive_count": { "type": ["integer", "null"], "minimum": 0, "maximum": 4, "description": "Option B only. Count of positive CHAMP signals (0-4). Null for Option A.", "default": null },
+
     "lead_score":           { "type": "string",  "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"] },
     "lead_score_reason":    { "type": ["string", "null"], "description": "Option B only." },
+
+    "nurture_stage":        { "type": ["string", "null"], "enum": ["N1_resources_shared", "N2_checked_in", "N3_requalified", "N4_upgraded", "N4_nudged", "N5_warm_closed", null], "description": "Option B only. Current Nurture flow stage. Null if not in nurture or Option A." },
+    "nurture_upgraded_to":  { "type": ["string", "null"], "enum": ["Warm", "Hot", null], "description": "Option B only. If lead upgraded from Nurture after re-qualification. Null if no upgrade." },
 
     "conversion_action":    { "type": "string",  "enum": ["meeting_booked", "form_submitted", "resources_sent", "none"] },
     "contact_form_question":{ "type": ["string", "null"] },
@@ -616,12 +628,12 @@ This is the persistent table where lead data is stored across sessions. Same str
   "description": "Contact form schema. Triggered when agent cannot answer a question (knowledge gap) or visitor declines Calendly. NOT tied to lead quality.",
   "type": "object",
   "properties": {
-    "full_name":  { "type": "string",          "description": "Required. Free text." },
-    "email":      { "type": "string",          "format": "email", "description": "Required. Validated format." },
-    "company":    { "type": "string",          "description": "Required. Pre-filled if collected during conversation." },
-    "message":    { "type": ["string", "null"],"description": "Optional. Pre-filled with conversation summary or question from the user if available." }
+    "visitor_name":           { "type": "string",          "description": "Required. Free text. Maps to visitor_name in conversation schema." },
+    "visitor_email":          { "type": "string",          "format": "email", "description": "Required. Validated format. Maps to visitor_email in conversation schema." },
+    "visitor_company":        { "type": "string",          "description": "Required. Pre-filled if collected during conversation. Maps to visitor_company in conversation schema." },
+    "contact_form_question":  { "type": ["string", "null"],"description": "Optional. Pre-filled with conversation summary or question from the user if available. Maps to contact_form_question in conversation schema." }
   },
-  "required": ["full_name", "email", "company"]
+  "required": ["visitor_name", "visitor_email", "visitor_company"]
 }
 ```
 
@@ -632,12 +644,12 @@ This is the persistent table where lead data is stored across sessions. Same str
 ### Scoring behaviour
 
 **`lead_score` default**
-- Option A: `"unscored"`
-- Option B: `"Nurture"`
+- Option A: `"unscored"` — stays unscored until sales team reviews
+- Option B: `"unscored"` — stays unscored until CHAMP evaluation completes, then set automatically
 
 **`lead_score` set by**
 - Option A: Sales team (manual)
-- Option B: Agent (automatic)
+- Option B: Agent (automatic, after CHAMP evaluation)
 
 ### Option B-only variables
 

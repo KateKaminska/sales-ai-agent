@@ -2,20 +2,41 @@
 
 ## ICP definition
 
-| **Attribute** | **Detail** |
-| --- | --- |
-| **Company type** | B2B companies with an existing website and inbound lead flow |
-| **Company stage** | Growth-stage startups, scale-ups, SMBs with established sales processes. Not pre-revenue or idea-stage. |
-| **Industries** | Industry-agnostic. Any B2B company with a sales team. Higher fit: SaaS, Professional Services, Agencies, Fintech, Edtech. **Hard exclusion: Adult/18+ content.** |
-| **Inbound volume** | 50+ website leads/month (enough to justify automation) |
-| **Sales team** | Has at least 1 dedicated sales person / SDR. Agent augments, doesn't replace. |
-| **Current pain** | Slow lead response, sales team overwhelmed, no 24/7 coverage, low website-to-call conversion |
-| **Tech stack** | Has or is willing to adopt a CRM. Has a website where a chat widget can be embedded. |
-| **Budget** | €5,000+ (starting price, subject to change) |
-| **Timeline** | X+ weeks to go-live (realistic for MVP delivery) |
-| **Decision authority** | Founder, Head of Sales, VP Marketing, or COO — someone with budget authority over sales tooling |
-| **Geography** | Global, English-speaking markets. **Hard exclusion: russia-based companies.** |
-| **Engagement model** | Project-based (MVP build) with optional retainer for iteration/support |
+**Company type**
+B2B companies with an existing website and inbound lead flow
+
+**Company stage**
+Growth-stage startups, scale-ups, SMBs with established sales processes. Not pre-revenue or idea-stage.
+
+**Industries**
+Industry-agnostic. Any B2B company with a sales team. Higher fit: SaaS, Professional Services, Agencies, Fintech, Edtech. **Hard exclusion: Adult/18+ content.**
+
+**Inbound volume**
+50+ website leads/month (enough to justify automation)
+
+**Sales team**
+Has at least 1 dedicated sales person / SDR. Agent augments, doesn't replace.
+
+**Current pain**
+Slow lead response, sales team overwhelmed, no 24/7 coverage, low website-to-call conversion
+
+**Tech stack**
+Has or is willing to adopt a CRM. Has a website where a chat widget can be embedded.
+
+**Budget**
+€5,000+ (starting price, subject to change)
+
+**Timeline**
+X+ weeks to go-live (realistic for MVP delivery)
+
+**Decision authority**
+Founder, Head of Sales, VP Marketing, or COO — someone with budget authority over sales tooling
+
+**Geography**
+Global, English-speaking markets. **Hard exclusion: russia-based companies.**
+
+**Engagement model**
+Project-based (MVP build) with optional retainer for iteration/support
 
 ## Suggested Lead Qualification Framework
 
@@ -55,17 +76,32 @@ CHAMP is a modern qualification framework that leads with the prospect's Challen
 
 #### Detailed Characteristics
 
-| **Attribute** | **Detail** |
-| --- | --- |
-| **Best for** | Consultative B2B services, custom solutions, complex buying processes. |
-| **Risk of DQ'ing good leads** | Lower — challenge-first approach keeps more prospects in the funnel. |
-| **AI Agent fit** | Aligns with conversational AI's strength: natural discovery through dialogue. |
-| **Ease of implementation** | Slightly more nuanced. Requires open-ended discovery. Still 4 elements. |
-| **Time VS Priority** | Asks "how important?" — urgency + ranking among their priorities. |
-| **Budget handling** | Budget discussed later. No budget now ≠ disqualified. Budgets can flex. |
-| **Conversation tone** | Consultative, empathetic. Feels like a discovery call. |
-| **Philosophy** | Buyer-centric: leads with understanding their pain. |
-| **Primary focus** | Challenges — what problem do they have? |
+**Best for**
+Consultative B2B services, custom solutions, complex buying processes.
+
+**Risk of DQ'ing good leads**
+Lower — challenge-first approach keeps more prospects in the funnel.
+
+**AI Agent fit**
+Aligns with conversational AI's strength: natural discovery through dialogue.
+
+**Ease of implementation**
+Slightly more nuanced. Requires open-ended discovery. Still 4 elements.
+
+**Time VS Priority**
+Asks "how important?" — urgency + ranking among their priorities.
+
+**Budget handling**
+Budget discussed later. No budget now ≠ disqualified. Budgets can flex.
+
+**Conversation tone**
+Consultative, empathetic. Feels like a discovery call.
+
+**Philosophy**
+Buyer-centric: leads with understanding their pain.
+
+**Primary focus**
+Challenges — what problem do they have?
 
 #### CHAMP Element Mapping
 

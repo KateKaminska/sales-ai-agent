@@ -178,14 +178,23 @@ Steps 1–9 are identical across Option A and Option B. Divergence happens at St
 
 In both options, the contact form has one specific purpose: escalating questions the agent cannot answer. It is NOT tied to lead quality and can appear at any point in the conversation, for any lead category.
 
-| **Property** | **Detail** |
-| --- | --- |
-| **Trigger** | Visitor asks a question outside the agent's knowledge base — specific pricing, custom integrations, contract terms, technical edge cases. |
-| **Agent behaviour** | Acknowledges the gap honestly. Offers to capture the question and have the sales team follow up. Does NOT invent an answer. |
-| **Example language** | "That's a great question — I don't have enough detail to give you an accurate answer on that. Let me make sure our team gets back to you on it. Can I take your email and note down your question?" |
-| **After form submission** | Agent continues the conversation. Qualification does not stop. The form is a parallel action, not a handoff. |
-| **Data captured** | Name, email, company (pre-filled if collected), the specific question flagged. |
-| **Where it goes** | The contact in the Botpress Users Table created. Question noted in contact record for sales team follow-up. |
+**Trigger**
+Visitor asks a question outside the agent's knowledge base — specific pricing, custom integrations, contract terms, technical edge cases.
+
+**Agent behaviour**
+Acknowledges the gap honestly. Offers to capture the question and have the sales team follow up. Does NOT invent an answer.
+
+**Example language**
+"That's a great question — I don't have enough detail to give you an accurate answer on that. Let me make sure our team gets back to you on it. Can I take your email and note down your question?"
+
+**After form submission**
+Agent continues the conversation. Qualification does not stop. The form is a parallel action, not a handoff.
+
+**Data captured**
+Name, email, company (pre-filled if collected), the specific question flagged.
+
+**Where it goes**
+The contact in the Botpress Users Table created. Question noted in contact record for sales team follow-up.
 
 *Design principle: the agent stays in the conversation after offering the form. The visitor gets continuity; the sales team gets the unanswered question. This prevents both dead-end conversations and hallucinated answers.*
 

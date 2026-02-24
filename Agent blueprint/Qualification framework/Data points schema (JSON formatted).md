@@ -26,6 +26,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "visitor_name": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's name. Collected via conversation or contact form.",
       "default": null
     },
@@ -39,12 +40,14 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "visitor_company": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Company or organization name. Collected at Step 3 (DISCOVERY_COMPANY).",
       "default": null
     },
 
     "visitor_role": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's role: Founder, Sales Manager, Marketing Lead, Enterprise buyer, other. Collected at Step 3.",
       "default": null
     },
@@ -81,6 +84,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "leads_per_month": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Current inbound leads/month. Step 6 (DISCOVERY_VOLUME). Used for Botpress plan scoping.",
       "default": null
     },
@@ -117,6 +121,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "timeline": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "When they want the agent live. Free text: 'ASAP', '6 weeks', 'Q2', 'exploring'. Step 8 (DISCOVERY_TIMELINE).",
       "default": null
     },
@@ -129,6 +134,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "budget_indication": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Budget range or 'not discussed'. Reference floor: €5,000. Step 9 (DISCOVERY_BUDGET).",
       "default": null
     },
@@ -266,6 +272,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "visitor_name": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's name. Collected via conversation or contact form.",
       "default": null
     },
@@ -279,12 +286,14 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "visitor_company": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Company or organization name. Collected at Step 3.",
       "default": null
     },
 
     "visitor_role": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's role: Founder, Sales Manager, Marketing Lead, Enterprise buyer, other. Collected at Step 3.",
       "default": null
     },
@@ -321,6 +330,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "leads_per_month": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Current inbound leads/month. Step 6.",
       "default": null
     },
@@ -357,6 +367,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "timeline": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "When they want the agent live. Step 8.",
       "default": null
     },
@@ -369,6 +380,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "budget_indication": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Budget range or 'not discussed'. Step 9.",
       "default": null
     },

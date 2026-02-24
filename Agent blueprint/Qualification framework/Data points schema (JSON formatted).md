@@ -54,18 +54,21 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "visitor_industry": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Industry/vertical. Inferred from company description at Step 3. Optional — not asked separately.",
       "default": null
     },
 
     "visitor_location": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Company location/country. Inferred from conversation. Used for ICP exclusion check (Russia = hard DQ).",
       "default": null
     },
 
     "visitor_team_size": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Team size or company size. Inferred or stated at Step 3.",
       "default": null
     },
@@ -91,6 +94,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "expected_volume": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Expected conversation volume after launch. Step 6 (DISCOVERY_VOLUME).",
       "default": null
     },
@@ -226,10 +230,10 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
     },
 
     "previous_lead_score": {
-      "type": ["string", "null"],
-      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor). Includes 'unscored' for Option A leads that were never manually scored.",
-      "default": null
+      "type": "string",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Lead score from previous conversation (if returning visitor). Defaults to 'unscored' for new visitors or leads that were never scored.",
+      "default": "unscored"
     },
 
     "created_at": {
@@ -300,18 +304,21 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "visitor_industry": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Industry/vertical. Inferred from company description at Step 3. Optional.",
       "default": null
     },
 
     "visitor_location": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Company location/country. Used for ICP exclusion check.",
       "default": null
     },
 
     "visitor_team_size": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Team size or company size. Inferred or stated at Step 3.",
       "default": null
     },
@@ -337,6 +344,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "expected_volume": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Expected conversation volume after launch. Step 6.",
       "default": null
     },
@@ -538,10 +546,10 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
     },
 
     "previous_lead_score": {
-      "type": ["string", "null"],
-      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor). Includes 'unscored' for Option A leads that were never manually scored.",
-      "default": null
+      "type": "string",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Lead score from previous conversation (if returning visitor). Defaults to 'unscored' for new visitors or leads that were never scored.",
+      "default": "unscored"
     },
 
     "created_at": {
@@ -577,27 +585,27 @@ This is the persistent table where lead data is stored across sessions. Same str
 
     "id":                   { "type": "string",  "description": "Auto-generated row ID" },
     "visitor_id":           { "type": "string",  "description": "Botpress userId (cookie-based)" },
-    "visitor_name":         { "type": ["string", "null"] },
+    "visitor_name":         { "type": ["string", "null"], "maxLength": 100 },
     "visitor_email":        { "type": ["string", "null"], "format": "email" },
-    "visitor_company":      { "type": ["string", "null"] },
-    "visitor_role":         { "type": ["string", "null"] },
-    "visitor_industry":     { "type": ["string", "null"] },
-    "visitor_location":     { "type": ["string", "null"] },
+    "visitor_company":      { "type": ["string", "null"], "maxLength": 150 },
+    "visitor_role":         { "type": ["string", "null"], "maxLength": 100 },
+    "visitor_industry":     { "type": ["string", "null"], "maxLength": 150 },
+    "visitor_location":     { "type": ["string", "null"], "maxLength": 100 },
 
-    "visitor_team_size":    { "type": ["string", "null"], "description": "Team/company size. Collected at Step 3." },
+    "visitor_team_size":    { "type": ["string", "null"], "maxLength": 100, "description": "Team/company size. Collected at Step 3." },
 
     "use_case":             { "type": ["string", "null"] },
     "pain_points":          { "type": ["string", "null"] },
-    "leads_per_month":      { "type": ["string", "null"] },
-    "expected_volume":      { "type": ["string", "null"], "description": "Expected conversation volume after launch. Step 6." },
+    "leads_per_month":      { "type": ["string", "null"], "maxLength": 100 },
+    "expected_volume":      { "type": ["string", "null"], "maxLength": 100, "description": "Expected conversation volume after launch. Step 6." },
     "current_crm":          { "type": ["string", "null"] },
     "website_platform":     { "type": ["string", "null"], "description": "Website platform: WordPress, Webflow, custom, other. Step 7." },
     "current_chat_tools":   { "type": ["string", "null"], "description": "Existing chat tools: Intercom, Drift, LiveChat, none, other. Step 7." },
     "integrations_needed":  { "type": ["string", "null"] },
 
-    "timeline":             { "type": ["string", "null"] },
+    "timeline":             { "type": ["string", "null"], "maxLength": 100 },
     "trigger_event":        { "type": ["string", "null"], "description": "Trigger event driving urgency: product launch, funding round, seasonal traffic, none. Step 8." },
-    "budget_indication":    { "type": ["string", "null"] },
+    "budget_indication":    { "type": ["string", "null"], "maxLength": 100 },
     "decision_authority":   { "type": ["string", "null"] },
     "other_stakeholders":   { "type": ["string", "null"], "description": "Other decision-makers involved. Step 9." },
 

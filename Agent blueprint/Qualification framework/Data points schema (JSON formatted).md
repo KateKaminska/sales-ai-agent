@@ -26,6 +26,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "visitor_name": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's name. Collected via conversation or contact form.",
       "default": null
     },
@@ -39,30 +40,35 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "visitor_company": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Company or organization name. Collected at Step 3 (DISCOVERY_COMPANY).",
       "default": null
     },
 
     "visitor_role": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's role: Founder, Sales Manager, Marketing Lead, Enterprise buyer, other. Collected at Step 3.",
       "default": null
     },
 
     "visitor_industry": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Industry/vertical. Inferred from company description at Step 3. Optional — not asked separately.",
       "default": null
     },
 
     "visitor_location": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Company location/country. Inferred from conversation. Used for ICP exclusion check (Russia = hard DQ).",
       "default": null
     },
 
     "visitor_team_size": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Team size or company size. Inferred or stated at Step 3.",
       "default": null
     },
@@ -81,12 +87,14 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "leads_per_month": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Current inbound leads/month. Step 6 (DISCOVERY_VOLUME). Used for Botpress plan scoping.",
       "default": null
     },
 
     "expected_volume": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Expected conversation volume after launch. Step 6 (DISCOVERY_VOLUME).",
       "default": null
     },
@@ -117,6 +125,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "timeline": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "When they want the agent live. Free text: 'ASAP', '6 weeks', 'Q2', 'exploring'. Step 8 (DISCOVERY_TIMELINE).",
       "default": null
     },
@@ -129,6 +138,7 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
 
     "budget_indication": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Budget range or 'not discussed'. Reference floor: €5,000. Step 9 (DISCOVERY_BUDGET).",
       "default": null
     },
@@ -220,10 +230,10 @@ Option A collects the same discovery data but does NOT evaluate CHAMP signals au
     },
 
     "previous_lead_score": {
-      "type": ["string", "null"],
-      "enum": ["Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor).",
-      "default": null
+      "type": "string",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Lead score from previous conversation (if returning visitor). Defaults to 'unscored' for new visitors or leads that were never scored.",
+      "default": "unscored"
     },
 
     "created_at": {
@@ -266,6 +276,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "visitor_name": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's name. Collected via conversation or contact form.",
       "default": null
     },
@@ -279,30 +290,35 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "visitor_company": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Company or organization name. Collected at Step 3.",
       "default": null
     },
 
     "visitor_role": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Visitor's role: Founder, Sales Manager, Marketing Lead, Enterprise buyer, other. Collected at Step 3.",
       "default": null
     },
 
     "visitor_industry": {
       "type": ["string", "null"],
+      "maxLength": 150,
       "description": "Industry/vertical. Inferred from company description at Step 3. Optional.",
       "default": null
     },
 
     "visitor_location": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Company location/country. Used for ICP exclusion check.",
       "default": null
     },
 
     "visitor_team_size": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Team size or company size. Inferred or stated at Step 3.",
       "default": null
     },
@@ -321,12 +337,14 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "leads_per_month": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Current inbound leads/month. Step 6.",
       "default": null
     },
 
     "expected_volume": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Expected conversation volume after launch. Step 6.",
       "default": null
     },
@@ -357,6 +375,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "timeline": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "When they want the agent live. Step 8.",
       "default": null
     },
@@ -369,6 +388,7 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "budget_indication": {
       "type": ["string", "null"],
+      "maxLength": 100,
       "description": "Budget range or 'not discussed'. Step 9.",
       "default": null
     },
@@ -437,9 +457,9 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
 
     "lead_score": {
       "type": "string",
-      "enum": ["Hot", "Warm", "Nurture", "DQ"],
-      "description": "Option B: set AUTOMATICALLY by agent based on CHAMP evaluation. Hot = all 4 positive. Warm = CH positive + 1-2 of A/M/P positive. Nurture = CH weak/vague. DQ = no need, wrong scope, spam, or ICP exclusion.",
-      "default": "Nurture"
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Option B: set AUTOMATICALLY by agent based on CHAMP evaluation. Starts as 'unscored' until CHAMP evaluation is complete. Hot = all 4 positive. Warm = CH positive + 1-2 of A/M/P positive. Nurture = CH weak/vague. DQ = no need, wrong scope, spam, or ICP exclusion.",
+      "default": "unscored"
     },
 
     "lead_score_reason": {
@@ -526,10 +546,10 @@ Option B extends Option A with CHAMP signal tracking. The agent evaluates signal
     },
 
     "previous_lead_score": {
-      "type": ["string", "null"],
-      "enum": ["Hot", "Warm", "Nurture", "DQ", null],
-      "description": "Lead score from previous conversation (if returning visitor).",
-      "default": null
+      "type": "string",
+      "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"],
+      "description": "Lead score from previous conversation (if returning visitor). Defaults to 'unscored' for new visitors or leads that were never scored.",
+      "default": "unscored"
     },
 
     "created_at": {
@@ -565,30 +585,42 @@ This is the persistent table where lead data is stored across sessions. Same str
 
     "id":                   { "type": "string",  "description": "Auto-generated row ID" },
     "visitor_id":           { "type": "string",  "description": "Botpress userId (cookie-based)" },
-    "visitor_name":         { "type": ["string", "null"] },
+    "visitor_name":         { "type": ["string", "null"], "maxLength": 100 },
     "visitor_email":        { "type": ["string", "null"], "format": "email" },
-    "visitor_company":      { "type": ["string", "null"] },
-    "visitor_role":         { "type": ["string", "null"] },
-    "visitor_industry":     { "type": ["string", "null"] },
-    "visitor_location":     { "type": ["string", "null"] },
+    "visitor_company":      { "type": ["string", "null"], "maxLength": 150 },
+    "visitor_role":         { "type": ["string", "null"], "maxLength": 100 },
+    "visitor_industry":     { "type": ["string", "null"], "maxLength": 150 },
+    "visitor_location":     { "type": ["string", "null"], "maxLength": 100 },
+
+    "visitor_team_size":    { "type": ["string", "null"], "maxLength": 100, "description": "Team/company size. Collected at Step 3." },
 
     "use_case":             { "type": ["string", "null"] },
     "pain_points":          { "type": ["string", "null"] },
-    "leads_per_month":      { "type": ["string", "null"] },
+    "leads_per_month":      { "type": ["string", "null"], "maxLength": 100 },
+    "expected_volume":      { "type": ["string", "null"], "maxLength": 100, "description": "Expected conversation volume after launch. Step 6." },
     "current_crm":          { "type": ["string", "null"] },
+    "website_platform":     { "type": ["string", "null"], "description": "Website platform: WordPress, Webflow, custom, other. Step 7." },
+    "current_chat_tools":   { "type": ["string", "null"], "description": "Existing chat tools: Intercom, Drift, LiveChat, none, other. Step 7." },
     "integrations_needed":  { "type": ["string", "null"] },
 
-    "timeline":             { "type": ["string", "null"] },
-    "budget_indication":    { "type": ["string", "null"] },
+    "timeline":             { "type": ["string", "null"], "maxLength": 100 },
+    "trigger_event":        { "type": ["string", "null"], "description": "Trigger event driving urgency: product launch, funding round, seasonal traffic, none. Step 8." },
+    "budget_indication":    { "type": ["string", "null"], "maxLength": 100 },
     "decision_authority":   { "type": ["string", "null"] },
+    "other_stakeholders":   { "type": ["string", "null"], "description": "Other decision-makers involved. Step 9." },
 
     "ch_challenges":        { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only. Null for Option A." },
     "a_authority":          { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
     "m_money":              { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
     "p_prioritization":     { "type": ["string", "null"], "enum": ["positive", "negative", "unclear", null], "description": "Option B only." },
 
+    "champ_positive_count": { "type": ["integer", "null"], "minimum": 0, "maximum": 4, "description": "Option B only. Count of positive CHAMP signals (0-4). Null for Option A.", "default": null },
+
     "lead_score":           { "type": "string",  "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"] },
     "lead_score_reason":    { "type": ["string", "null"], "description": "Option B only." },
+
+    "nurture_stage":        { "type": ["string", "null"], "enum": ["N1_resources_shared", "N2_checked_in", "N3_requalified", "N4_upgraded", "N4_nudged", "N5_warm_closed", null], "description": "Option B only. Current Nurture flow stage. Null if not in nurture or Option A." },
+    "nurture_upgraded_to":  { "type": ["string", "null"], "enum": ["Warm", "Hot", null], "description": "Option B only. If lead upgraded from Nurture after re-qualification. Null if no upgrade." },
 
     "conversion_action":    { "type": "string",  "enum": ["meeting_booked", "form_submitted", "resources_sent", "none"] },
     "contact_form_question":{ "type": ["string", "null"] },
@@ -596,6 +628,7 @@ This is the persistent table where lead data is stored across sessions. Same str
 
     "icp_exclusion_flag":   { "type": "boolean", "default": false },
     "is_returning_visitor":  { "type": "boolean", "default": false },
+    "previous_lead_score":  { "type": "string", "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"], "description": "Lead score from previous conversation. Defaults to 'unscored' for new visitors or leads that were never scored.", "default": "unscored" },
 
     "created_at":           { "type": "string",  "format": "date-time" },
     "updated_at":           { "type": "string",  "format": "date-time" }
@@ -616,12 +649,12 @@ This is the persistent table where lead data is stored across sessions. Same str
   "description": "Contact form schema. Triggered when agent cannot answer a question (knowledge gap) or visitor declines Calendly. NOT tied to lead quality.",
   "type": "object",
   "properties": {
-    "full_name":  { "type": "string",          "description": "Required. Free text." },
-    "email":      { "type": "string",          "format": "email", "description": "Required. Validated format." },
-    "company":    { "type": "string",          "description": "Required. Pre-filled if collected during conversation." },
-    "message":    { "type": ["string", "null"],"description": "Optional. Pre-filled with conversation summary or question from the user if available." }
+    "visitor_name":           { "type": "string",          "description": "Required. Free text. Maps to visitor_name in conversation schema." },
+    "visitor_email":          { "type": "string",          "format": "email", "description": "Required. Validated format. Maps to visitor_email in conversation schema." },
+    "visitor_company":        { "type": "string",          "description": "Required. Pre-filled if collected during conversation. Maps to visitor_company in conversation schema." },
+    "contact_form_question":  { "type": ["string", "null"],"description": "Optional. Pre-filled with conversation summary or question from the user if available. Maps to contact_form_question in conversation schema." }
   },
-  "required": ["full_name", "email", "company"]
+  "required": ["visitor_name", "visitor_email", "visitor_company"]
 }
 ```
 
@@ -629,15 +662,44 @@ This is the persistent table where lead data is stored across sessions. Same str
 
 ## Differences Summary
 
-| Variable / Feature | Option A | Option B |
-|---|---|---|
-| `lead_score` default | `"unscored"` | `"Nurture"` |
-| `lead_score` set by | Sales team (manual) | Agent (automatic) |
-| `champ_signals` object | Not present | Required (4 signals) |
-| `champ_positive_count` | Not present | Required (0-4) |
-| `lead_score_reason` | Not present | Required |
-| `nurture_stage` | Not present | Present (N1-N5 tracking) |
-| `nurture_upgraded_to` | Not present | Present (Warm/Hot upgrade) |
-| `conversation_stage` enum | 15 values | 17 values (adds `champ_evaluation`, `handoff_hot`, `handoff_warm`) |
-| `icp_exclusion_flag` | Flags for human review | Triggers AUTO DQ |
-| Botpress Table CHAMP columns | Null | Populated |
+### Scoring behaviour
+
+**`lead_score` default**
+- Option A: `"unscored"` — stays unscored until sales team reviews
+- Option B: `"unscored"` — stays unscored until CHAMP evaluation completes, then set automatically
+
+**`lead_score` set by**
+- Option A: Sales team (manual)
+- Option B: Agent (automatic, after CHAMP evaluation)
+
+### Option B-only variables
+
+These variables exist only in Option B. Option A does not use them.
+
+**`champ_signals`** — object with 4 required signals (`ch_challenges`, `a_authority`, `m_money`, `p_prioritization`). Each signal is `"positive"`, `"negative"`, or `"unclear"`.
+
+**`champ_positive_count`** — integer (0–4). Count of CHAMP signals evaluated as positive. Drives the scoring logic.
+
+**`lead_score_reason`** — free-text explanation of why the agent scored the lead this way. Helps sales team understand the agent's reasoning.
+
+**`nurture_stage`** — tracks progress through the Nurture flow: `N1_resources_shared` → `N2_checked_in` → `N3_requalified` → `N4_upgraded` / `N4_nudged` → `N5_warm_closed`.
+
+**`nurture_upgraded_to`** — `"Warm"` or `"Hot"` if the lead was upgraded after re-qualification (N4 upgrade path). Null if no upgrade occurred.
+
+### Conversation stage differences
+
+**Option A** — 15 stages. Uses a single `handoff` stage for all qualified leads.
+
+**Option B** — 17 stages. Adds `champ_evaluation`, `handoff_hot`, and `handoff_warm` to differentiate routing after scoring.
+
+### ICP exclusion handling
+
+**`icp_exclusion_flag`**
+- Option A: Flags the lead for human review — agent still offers Calendly.
+- Option B: Triggers AUTO DQ — immediate polite close, no Calendly, no form.
+
+### Botpress Table CHAMP columns
+
+**`ch_challenges`, `a_authority`, `m_money`, `p_prioritization`**
+- Option A: Null (not populated by agent)
+- Option B: Populated with `"positive"`, `"negative"`, or `"unclear"` after CHAMP evaluation

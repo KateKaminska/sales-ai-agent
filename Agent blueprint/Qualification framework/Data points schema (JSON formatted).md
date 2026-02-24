@@ -628,6 +628,7 @@ This is the persistent table where lead data is stored across sessions. Same str
 
     "icp_exclusion_flag":   { "type": "boolean", "default": false },
     "is_returning_visitor":  { "type": "boolean", "default": false },
+    "previous_lead_score":  { "type": "string", "enum": ["unscored", "Hot", "Warm", "Nurture", "DQ"], "description": "Lead score from previous conversation. Defaults to 'unscored' for new visitors or leads that were never scored.", "default": "unscored" },
 
     "created_at":           { "type": "string",  "format": "date-time" },
     "updated_at":           { "type": "string",  "format": "date-time" }
